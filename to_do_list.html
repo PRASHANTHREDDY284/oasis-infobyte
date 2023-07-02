@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>To-Do App</title>
+  <style>
+    body {
+      background-color: rgb(115, 226, 243);
+      color: rgb(10, 10, 10);
+    }
+
+    h1, h2 {
+      color: rgb(12, 13, 13);
+    }
+    .pending-task {
+      color: red;
+    }
+
+    .completed {
+      text-decoration: line-through;
+    }
+
+    .container {
+      display: flex;
+      border: 1px solid rgb(7, 7, 7);
+      border-radius: 5px;
+      padding: 10px;
+      background-color: #e1dcdc;
+    }
+
+    .left,
+    .right {
+      flex: 1;
+      padding: 10px;
+    }
+
+    .left {
+      border: 1px solid rgb(244, 238, 238);
+      border-radius: 5px;
+      background-color: #f5eeee;
+    }
+
+    .right {
+      margin-left: 20px;
+      border: 1px solid white;
+      border-radius: 5px;
+      padding: 10px;
+      background-color: #f5eeee;
+    }
+
+  </style>
+</head>
+<body>
+  <h1>To-Do App</h1>
+
+  <div class="container">
+    <div class="left">
+      <h2>Add Task</h2>
+      <form id="task-form">
+        <input type="text" id="task-input" placeholder="Enter task">
+        <button type="submit">Add</button>
+      </form>
+    </div>
+    <div class="right">
+        <h2>Pending Tasks</h2>
+        <ul id="pending-tasks">
+        </ul>
+      </div>
+  </div>
+
+  <script>
+    const taskForm = document.getElementById('task-form');
+    const taskInput = document.getElementById('task-input');
+    const pendingTasksList = document.getElementById('pending-tasks');
+
+    function createTaskItem(text) {
+      const li = document.createElement('li');
+      const taskText = document.createTextNode(text);
+      li.appendChild(taskText);
+
+      const editButton = document.createElement('button');
+      editButton.innerHTML = 'Edit';
+      editButton.addEventListener('click', function() {
+        const newText = prompt('Enter new task:');
+        li.firstChild.nodeValue = newText;
+      });
+      li.appendChild(editButton);
+
+      const deleteButton = document.createElement('button');
+      deleteButton.innerHTML = 'Delete';
+      deleteButton.addEventListener('click', function() {
+        li.remove();
+      });
+      li.appendChild(deleteButton);
+
+      return li;
+    }
+
+    function addTask(event) {
+      event.preventDefault();
+      const taskText = taskInput.value;
+      if (taskText !== '') {
+        const taskItem = createTaskItem(taskText);
+        taskItem.classList.add('pending-task');
+        pendingTasksList.appendChild(taskItem);
+        taskInput.value = '';
+      }
+    }
+
+
+    taskForm.addEventListener('submit', addTask);
+  </script>
+</body>
+</html>
